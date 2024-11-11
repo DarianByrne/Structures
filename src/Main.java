@@ -8,5 +8,15 @@ public class Main {
 		System.out.println("LeftJustifiedArray: " + myArr);
 		myArr.delete(3);
 		System.out.println("LeftJustifiedArray: " + myArr);
+
+		List<Integer> myList = new List<>(5);
+		for (int i = 1; i <= 5; i++) {
+			myList.add(i - 1, i * 2);
+		}
+		System.out.println("List: " + myList);
+		System.out.println(myList.indexOf(4));
+		System.out.println(myList.indexOf(5));
+//		finds the index of the first element that is greater than the target
+		System.out.println(myList.indexOf(5, (current, target) -> current > target));
 	}
 }
