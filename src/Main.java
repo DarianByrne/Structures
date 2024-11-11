@@ -28,5 +28,10 @@ public class Main {
 			System.out.println(myStack.pop());
 		}
 		System.out.println("Stack: " + myStack);
+
+		ParenthesisChecker checker = new ParenthesisChecker();
+		System.out.println("ParenthesisChecker: " + checker.evaluate("public class Main { public static void main(String[] args) { System.out.println(\"Hello world!\"); } }"));
+		System.out.println("ParenthesisChecker: " + checker.evaluate("public class Main { public static void main(String[] args) { System.out.println(\"Hello world!\"); ) }"));
+		System.out.println("ParenthesisChecker: " + checker.evaluate("public class Main { public static void main(String[] args) { System.out.println(\"Hello world!\");  }"));
 	}
 }
