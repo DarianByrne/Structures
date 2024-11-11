@@ -18,5 +18,15 @@ public class Main {
 		System.out.println(myList.indexOf(5));
 //		finds the index of the first element that is greater than the target
 		System.out.println(myList.indexOf(5, (current, target) -> current > target));
+
+		Stack<Integer> myStack = new Stack<>(10);
+		for (int i = 1; i <= 10; i++) {
+			myStack.push(i);
+		}
+		System.out.println("Stack: " + myStack);
+		while (!myStack.isEmpty()) {
+			System.out.println(myStack.pop());
+		}
+		System.out.println("Stack: " + myStack);
 	}
 }
