@@ -34,8 +34,11 @@ public class Main {
 		System.out.println("ParenthesisChecker: " + checker.evaluate("public class Main { public static void main(String[] args) { System.out.println(\"Hello world!\"); ) }"));
 		System.out.println("ParenthesisChecker: " + checker.evaluate("public class Main { public static void main(String[] args) { System.out.println(\"Hello world!\");  }"));
 
-//		( 5 - 2 ) + 3
-		double result = ReversePolishNotation.evaluate("5 2 - 3 +");
+//		(5 - 2) + 3
+		String postfix = ReversePolishNotation.convert("(5 - 2) + 3");
+		System.out.println("ReversePolishNotation: " + postfix);
+//		double result = ReversePolishNotation.evaluate("5 2 - 3 +");
+		double result = ReversePolishNotation.evaluate(postfix);
 		System.out.println("ReversePolishNotation: " + result);
 	}
 }

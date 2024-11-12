@@ -1,7 +1,53 @@
 public class ReversePolishNotation {
-	public static char[] convert(char[] infix) {
-//		TODO
-		return new char[10];
+	public static String convert(String infix) {
+		Stack<Character> workingSpace = new Stack<>(infix.length());
+		String postfix = "";
+		for (char token : infix.toCharArray()) {
+			switch (token) {
+				case '(':
+					workingSpace.push(token);
+					break;
+
+				case ')':
+//					TODO error detect empty working space
+					while (workingSpace.peek() != '(') {
+						postfix += workingSpace.pop();
+					}
+//					pop the '(' that was found
+					workingSpace.pop();
+					break;
+
+				case '+':
+				case '-':
+					while (!workingSpace.isEmpty() && workingSpace.peek() != '(') {
+						postfix += workingSpace.pop();
+					}
+					workingSpace.push(token);
+					break;
+
+				case '%':
+				case '*':
+				case '/':
+					while (!workingSpace.isEmpty() &&
+							(workingSpace.peek() != '+' && workingSpace.peek() != '-' && workingSpace.peek() != '(')) {
+						postfix += workingSpace.pop();
+					}
+					workingSpace.push(token);
+					break;
+
+				default:
+					if (isDouble(token) || token == ' ') {
+//						TODO handle multi digit doubles
+						postfix += token;
+					} else {
+						throw new IllegalStateException("Unexpected value: " + token);
+					}
+			}
+		}
+		while (!workingSpace.isEmpty()) {
+			postfix += workingSpace.pop();
+		}
+		return postfix;
 	}
 
 	public static double evaluate(String postfix) {
