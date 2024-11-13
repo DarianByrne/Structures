@@ -1,65 +1,74 @@
 public class ReversePolishNotation {
 	public static String convert(String infix) {
+		if (!(new ParenthesisChecker().evaluate(infix))) throw new Error("Parentheses don't match");
+
 		Stack<Character> workingSpace = new Stack<>(infix.length());
 		String postfix = "";
-		for (char token : infix.toCharArray()) {
-			switch (token) {
-				case '(':
-					workingSpace.push(token);
-					break;
-
-				case ')':
-//					TODO error detect empty working space
-					while (workingSpace.peek() != '(') {
-						postfix += workingSpace.pop();
+		String currentOperand = "";
+		char[] tokens = infix.toCharArray();
+		for (int i = 0; i < tokens.length; i++) {
+			char token = tokens[i];
+			if (isDouble(token)) {
+//				stores the operand one char at a time
+				currentOperand += token;
+//				looks ahead to see if this is the last char in the expression or the double
+				if ((i == tokens.length - 1
+						|| (i + 1 < tokens.length && !isDouble(tokens[i + 1])))) {
+					try {
+						postfix += Double.parseDouble(currentOperand) + " ";
+						currentOperand = "";
+					} catch (NumberFormatException e) {
+						throw new Error("Invalid operand");
 					}
-//					pop the '(' that was found
-					workingSpace.pop();
-					break;
-
-				case '+':
-				case '-':
-					while (!workingSpace.isEmpty() && workingSpace.peek() != '(') {
-						postfix += workingSpace.pop();
+				}
+			} else {
+				switch (token) {
+					case ' ' -> {
 					}
-					workingSpace.push(token);
-					break;
-
-				case '%':
-				case '*':
-				case '/':
-					while (!workingSpace.isEmpty() &&
-							(workingSpace.peek() != '+' && workingSpace.peek() != '-' && workingSpace.peek() != '(')) {
-						postfix += workingSpace.pop();
+					case '(' -> workingSpace.push(token);
+					case ')' -> {
+						postfix = popUntil(workingSpace, postfix);
+//						pop the '(' that was found
+						popOpening(workingSpace);
 					}
-					workingSpace.push(token);
-					break;
-
-				default:
-					if (isDouble(token) || token == ' ') {
-//						TODO handle multi digit doubles
-						postfix += token;
-					} else {
-						throw new IllegalStateException("Unexpected value: " + token);
+					case '+', '-' -> {
+						postfix = popUntil(workingSpace, postfix);
+						workingSpace.push(token);
 					}
+					case '%', '*', '/' -> {
+						while (!workingSpace.isEmpty()
+								&& workingSpace.peek() != '('
+								&& workingSpace.peek() != '+'
+								&& workingSpace.peek() != '-') {
+							postfix += workingSpace.pop() + " ";
+						}
+						workingSpace.push(token);
+					}
+					default -> throw new Error("Unexpected token (" + token + ")");
+				}
 			}
 		}
-		while (!workingSpace.isEmpty()) {
-			postfix += workingSpace.pop();
-		}
+		postfix = popUntil(workingSpace, postfix);
+//		pop the '(' that was found
+		popOpening(workingSpace);
 		return postfix;
 	}
 
 	public static double evaluate(String postfix) {
 		Stack<Double> workingSpace = new Stack<>(postfix.length());
 		String currentOperand = "";
-		for (char token : postfix.toCharArray()) {
+		char[] tokens = postfix.toCharArray();
+		for (int i = 0; i < tokens.length; i++) {
+			char token = tokens[i];
+//			although spaces are necessary for separating numbers, they are skipped
+			if (token == ' ') continue;
+
 			if (isDouble(token)) {
 //				stores the operand one char at a time
 				currentOperand += token;
-			} else if (token == ' ') {
-//				when a space is encountered, parse the stored operand
-				if (!currentOperand.isEmpty()) {
+//				looks ahead to see if this is the last char in the expression or the double
+				if ((i == tokens.length - 1
+						|| (i + 1 < tokens.length && !isDouble(tokens[i + 1])))) {
 					try {
 						workingSpace.push(Double.parseDouble(currentOperand));
 						currentOperand = "";
@@ -100,18 +109,20 @@ public class ReversePolishNotation {
 		}
 	}
 
-	private static int getPriority(char token) {
-		if (token == '*' || token == '/' || token == '%') return 3;
-		else if (token == '+' || token == '-') return 2;
-		else if (token == '(' || token == ')') return 1;
-		else throw new Error("Invalid operator");
-	}
-
-	private static boolean isInt(char c) {
-		return c >= '0' && c <= '9';
-	}
-
 	private static boolean isDouble(char c) {
-		return isInt(c) || c == '.';
+		return (c >= '0' && c <= '9') || c == '.';
+	}
+
+	private static void popOpening(Stack<Character> workingSpace) {
+		if (!workingSpace.isEmpty() && workingSpace.peek() == '(') {
+			workingSpace.pop();
+		}
+	}
+
+	private static String popUntil(Stack<Character> workingSpace, String postfix) {
+		while (!workingSpace.isEmpty() && workingSpace.peek() != '(') {
+			postfix += workingSpace.pop() + " ";
+		}
+		return postfix;
 	}
 }
