@@ -47,5 +47,18 @@ public class Main {
 		double result2 = ReversePolishNotation.evaluate("55.5 2-3+");
 		System.out.print(", " + result2);
 		System.out.println(", " + (result1 == result2));
+
+		Queue<String> myQueue = new Queue<>(10);
+		myQueue.enqueue("Darian");
+		myQueue.enqueue("Vikki");
+		myQueue.enqueue("Brandon");
+		myQueue.enqueue("Oliwier");
+		myQueue.enqueue("Milo");
+		System.out.println("Queue: " + myQueue);
+		while (!myQueue.isEmpty()) {
+			String next = myQueue.dequeue();
+			System.out.print("next: " + next + ", ");
+		}
+		System.out.println("Queue: " + myQueue);
 	}
 }
