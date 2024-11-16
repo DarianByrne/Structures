@@ -49,6 +49,10 @@ public class Stack<T> {
 
 	@Override
 	public String toString() {
-		return stack.toString();
+		String str = elementCount() + " elements";
+		if (!isEmpty()) {
+			str += ", top: " + peek().toString();
+		}
+		return str;
 	}
 }

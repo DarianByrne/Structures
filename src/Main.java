@@ -22,10 +22,11 @@ public class Main {
 		Stack<Integer> myStack = new Stack<>(10);
 		for (int i = 1; i <= 10; i++) {
 			myStack.push(i);
+			System.out.print(myStack.peek() + ", ");
 		}
 		System.out.println("Stack: " + myStack);
 		while (!myStack.isEmpty()) {
-			System.out.println(myStack.pop());
+			System.out.print(myStack.pop() + ", ");
 		}
 		System.out.println("Stack: " + myStack);
 
