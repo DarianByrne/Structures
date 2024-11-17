@@ -60,5 +60,39 @@ public class Main {
 			System.out.print("next: " + next + ", ");
 		}
 		System.out.println("Queue: " + myQueue);
+
+//		queue above implemented as a dequeue
+		Dequeue<String> myDequeue = new Dequeue<>(10);
+		myDequeue.enqueueLast("Darian");
+		myDequeue.enqueueLast("Vikki");
+		myDequeue.enqueueLast("Brandon");
+		myDequeue.enqueueLast("Oliwier");
+		myDequeue.enqueueLast("Milo");
+		System.out.println("Dequeue: " + myDequeue);
+		while (!myDequeue.isEmpty()) {
+			String next = myDequeue.dequeueFirst();
+			System.out.print("next: " + next + ", ");
+		}
+		System.out.println("Dequeue: " + myDequeue);
+
+//		browsing history example
+		DequeueStack<Integer> history = new DequeueStack<>(3);
+//		the user visits 5 pages
+		for (int i = 0; i < 5; i++) {
+			System.out.print("History: " + history);
+//			when they visit more pages than the history can hold,
+			if (history.isFull()) {
+//				dequeue the first (oldest) entry
+				System.out.print(", delete oldest: " + history.dequeueFirst());
+			}
+//			add the page to the front
+			System.out.println(", add newest: " + i);
+			history.push(i);
+		}
+		System.out.print("History: " + history);
+		System.out.print((", go back a page to: " + history.pop()));
+		System.out.println((", go back a page to: " + history.pop()));
+//		although we visited more than 3 pages, only 1 page is left in the history now
+		System.out.println("History: " + history);
 	}
 }
