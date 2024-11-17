@@ -94,5 +94,28 @@ public class Main {
 		System.out.println((", go back a page to: " + history.pop()));
 //		although we visited more than 3 pages, only 1 page is left in the history now
 		System.out.println("History: " + history);
+
+		CircularArray<Integer> myArr2 = new CircularArray<>(10);
+		System.out.println("CircularArray: " + myArr2);
+		for (int i = 1; i <= 8; i++) {
+//			adds the elements in a flip-flop style order
+			if (i % 2 == 0) {
+				myArr2.addTail(i);
+			} else {
+				myArr2.addHead(i);
+			}
+		}
+		myArr2.addHead(9);
+		System.out.println("CircularArray: " + myArr2);
+		int count = myArr2.getNumOfElements();
+		for (int i = 0; i < count; i++) {
+//			reverses the flip-flop from before
+			if (i % 2 == 0) {
+				System.out.print(myArr2.deleteHead() + ", ");
+			} else {
+				System.out.print(myArr2.deleteTail() + ", ");
+			}
+		}
+		System.out.println("CircularArray: " + myArr2);
 	}
 }
