@@ -75,6 +75,20 @@ public class Main {
 		}
 		System.out.println("Dequeue: " + myDequeue);
 
+//		queue above implemented as a CircularQueue
+		CircularQueue<String> myCircularQueue = new CircularQueue<>(10);
+		myCircularQueue.enqueue("Darian");
+		myCircularQueue.enqueue("Vikki");
+		myCircularQueue.enqueue("Brandon");
+		myCircularQueue.enqueue("Oliwier");
+		myCircularQueue.enqueue("Milo");
+		System.out.println("CircularQueue: " + myCircularQueue);
+		while (!myCircularQueue.isEmpty()) {
+			String next = myCircularQueue.dequeue();
+			System.out.print("next: " + next + ", ");
+		}
+		System.out.println("CircularQueue: " + myCircularQueue);
+
 //		browsing history example
 		DequeueStack<Integer> history = new DequeueStack<>(3);
 //		the user visits 5 pages
