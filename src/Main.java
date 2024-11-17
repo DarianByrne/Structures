@@ -123,6 +123,26 @@ public class Main {
 //		although we visited more than 3 pages, only 1 page is left in the history now
 		System.out.println("History: " + history);
 
+//		above browsing history example implemented as a CircularDequeueStack
+		CircularDequeueStack<Integer> history2 = new CircularDequeueStack<>(3);
+//		the user visits 5 pages
+		for (int i = 0; i < 5; i++) {
+			System.out.print("History2: " + history2);
+//			when they visit more pages than the history can hold,
+			if (history2.isFull()) {
+//				dequeue the first (oldest) entry
+				System.out.print(", delete oldest: " + history2.dequeueFirst());
+			}
+//			add the page to the front
+			System.out.println(", add newest: " + i);
+			history2.push(i);
+		}
+		System.out.print("History2: " + history2);
+		System.out.print((", go back a page to: " + history2.pop()));
+		System.out.println((", go back a page to: " + history2.pop()));
+//		although we visited more than 3 pages, only 1 page is left in the history now
+		System.out.println("History2: " + history2);
+
 		CircularArray<Integer> myArr2 = new CircularArray<>(10);
 		System.out.println("CircularArray: " + myArr2);
 		for (int i = 1; i <= 8; i++) {
